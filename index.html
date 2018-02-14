@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Bootstrap Tree View</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body>
-  <style>
-  </style>
   <div class="container">
     <h1>Bootstrap Tree View</h1>
     <br>
@@ -22,147 +21,12 @@
       </div>
     </div>
   </div>
+  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-treeview/1.2.0/bootstrap-treeview.min.js"></script>
-  <script type="text/javascript">
-    $(function () {
-      var defaultData = [{
-          text: 'C',
-          href: '#parent1',
-          tags: ['2'],
-          nodeId: 0,
-          state: {
-            expanded: false,
-          },
-          nodes: [{
-              text: 'Data types & Operators',
-              href: '#child1',
-              // color: "red",
-              tags: ['0'],
-            },
-            {
-              text: 'Control Flow',
-              href: '#child2',
-              tags: ['0']
-            }, {
-              text: 'Storage classes & Functions ',
-              href: '#child2',
-              tags: ['0']
-            },
-          ]
-        },
-        {
-          text: 'JAVA',
-          href: '#parent2',
-          tags: ['2'],
-          checkChildren: true,
-          state: {
-            expanded: false,
-          },
-          nodes: [{
-              text: 'Data types & Operators',
-              href: '#child1',
-              // color: "red",
-              tags: ['0'],
-            },
-            {
-              text: 'Control Flow',
-              href: '#child2',
-              tags: ['0']
-            }, {
-              text: 'Storage classes & Functions ',
-              href: '#child2',
-              tags: ['0']
-            },
-          ]
-        },
-        {
-          text: 'PYTHON',
-          href: '#parent3',
-          tags: ['0']
-        },
-        {
-          text: 'DBMS',
-          href: '#parent4',
-          tags: ['0']
-        },
-        {
-          text: 'JAVASCRIPT',
-          href: '#parent5',
-          tags: ['0']
-        }
-      ];
-      //to print events
-      var $checkableTree = $('#treeview-checkable').treeview({
-        data: defaultData,
-        showIcon: true,
-        selectedColor: '#FFFFFF',
-        expandIcon: 'glyphicon glyphicon-chevron-right',
-        collapseIcon: 'glyphicon glyphicon-chevron-down',
-        showCheckbox: true,
-        highlightSelected: false,
-        onNodeChecked: function (event, node) {
-          $('#checkable-output').prepend('<p>' + node.text + ' was checked</p>');
-        },
-        onNodeUnchecked: function (event, node) {
-          $('#checkable-output').prepend('<p>' + node.text + ' was unchecked</p>');
-        }
-      });
-      //on node selected
-      $('#treeview-checkable').on('nodeSelected', function (event, data) {
-        var nodeId = data.nodeId;
-        //to expand elements on node selection
-        $('#treeview-checkable').treeview('toggleNodeExpanded', [nodeId, {
-          silent: true
-        }]);
-      });
-      //on node checked
-      $('#treeview-checkable').on('nodeChecked', function (event, data) {
-        var nodeId = data.nodeId;
-        //to check if parentId exists
-        var parentId = -1;
-        if ('parentId' in data) {
-          parentId = data.parentId;
-        }
-        //to expand elements on click of checkbox selection
-        $('#treeview-checkable').treeview('expandNode', [nodeId, {
-          silent: true,
-          ignoreChildren: false
-        }]);
-        //if parentId exists select parentId on selection of child
-        if (parentId !== -1) {
-          $('#treeview-checkable').treeview('checkNode', [parentId, {
-            silent: true
-          }]);
-        }
-      });
-      //on uncheck parent uncheck child and viseversa..
-      $('#treeview-checkable').on('nodeUnchecked', function (event, data) {
-        //to get childern nodes in parent node
-        for (i in data.nodes) {
-          var nodeId = data.nodes[i].nodeId;  
-          //to see if its parent or child as parent has tags so if tags is not equal to 0 then uncheck node
-          if (data.tags[0] !== "0") {
-            $('#treeview-checkable').treeview('uncheckNode', [nodeId, { silent: true}  ]);
-          }
-        }
-        //to check if allchildren are unchecked uncheck parent 
-        var siblings= $('#treeview-checkable').treeview('getSiblings', data);
-        var parentId=data.parentId;
-       var allchildunchecked=true;
-       //getting status of child element
-           for(i in siblings){
-             console.log(siblings[i].state.checked)
-             if (siblings[i].state.checked == true){
-              allchildunchecked=false;
-             }
-           }
-           if(allchildunchecked==true){
-               $('#treeview-checkable').treeview('uncheckNode', [parentId, { silent: true}  ]);
-           }
-      })
-    });
-  </script>
+  <script src='bootstrap-treeview.js'></script>
+  <script src="customtreeview.js"></script>
 </body>
 
 </html>
