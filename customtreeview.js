@@ -4,14 +4,19 @@ var object = [{
   questionCount: "150",
   listoftags: [{
     topicName: "data types & operators",
-    // questionsCount: "15",
-    def: "hey",
+    questionsCount: "392",
+    // def: "hey",
     listoftags: [{
-      topicName: "xya",
-    }]
+      topicName: "operators",
+      
   },{
+    topicName: "Logical",
+  },
+  { topicName: "operators"
+}
+]},{
     topicName: "data",
-    // questionsCount: "15",
+    questionsCount: "15",
     listoftags: [{
       topicName: "xya",
     }]
@@ -19,6 +24,14 @@ var object = [{
 }, {
   topicName: "JAVA",
   questionCount: "50",
+  listoftags: [{
+    topicName: "data types & operators",
+    questionsCount: "15",
+    // def: "hey",
+    listoftags: [{
+      topicName: "xya",
+    }]
+  }]
 }]
 // initialization of empty data array 
 var data = [];
@@ -32,9 +45,11 @@ function getchilddata(listoftags) {
     var tooltipdata = listoftags[i].def;
     //for grandchildren
     var nodes1 = [];
-    if ("listoftags" in listoftags[i]) {
-      nodes1 = getchilddata(listoftags[i].listoftags);
-     
+    if ("listoftags" in listoftags[i]) {     
+     nodes1 = getchilddata(listoftags[i].listoftags);
+     //todisable grandchildren
+     nodes1.forEach(function(item){item.state = {disabled:true};});
+    console.log(nodes1);
     }
     var childdata = {
       text: name,
@@ -67,8 +82,7 @@ object.forEach(function (element) {
   data.push(currdata);
 })
 //to print events
-  console.log(data);
-
+console.log(data)
 var $checkableTree = $('#treeview-checkable').treeview({
   data: data,
   expanded: false,
@@ -96,15 +110,6 @@ $('#treeview-checkable').on('nodeSelected', function (event, data) {
   $('#treeview-checkable').treeview('toggleNodeExpanded', [nodeId, {
     silent: true
   }]);   
-  for (i in data.nodes) {
-    console.log(data.nodes[i].nodes);
-    for (j in data.nodes[i].nodes) {
-      console.log(data.nodes[i].nodes[j].nodeId);
-      var gchild = data.nodes[i].nodes[j].nodeId
-      //to see if its parent or child as parent has tags so if tags is not equal to 0 then uncheck node
-      $('#treeview-checkable').treeview('disableNode', [gchild, { silent: true }]);
-    }
-  }
 });
 //on node checked
 $('#treeview-checkable').on('nodeChecked', function (event, data) {
@@ -142,7 +147,7 @@ $('#treeview-checkable').on('nodeUnchecked', function (event, data) {
   var allchildunchecked = true;
   //getting status of child element
   for (i in siblings) {
-    console.log(siblings[i].state.checked)
+    // console.log(siblings[i].state.checked);
     if (siblings[i].state.checked == true) {
       allchildunchecked = false;
     }
